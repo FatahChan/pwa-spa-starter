@@ -36,7 +36,7 @@ const publicRoute = publicImport.update({
 
 const protectedRoute = protectedImport.update({
   id: '/(protected)',
-  // path: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
