@@ -7,9 +7,11 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import PWABadge from "../PWABadge";
+import { AuthContext } from "@/services/auth";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
+  auth: AuthContext;
 }>()({
   component: RootComponent,
   notFoundComponent: () => {
