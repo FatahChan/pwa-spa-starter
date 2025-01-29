@@ -13,36 +13,76 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as authLayoutImport } from './routes/(auth)/_layout'
-import { Route as authLayoutIndexImport } from './routes/(auth)/_layout/index'
-import { Route as authLayoutHomeImport } from './routes/(auth)/_layout/home'
+import { Route as publicPublicLayoutImport } from './routes/(public)/_public-layout'
+import { Route as protectedProtectedLayoutImport } from './routes/(protected)/_protected-layout'
+import { Route as authAuthLayoutImport } from './routes/(auth)/_auth-layout'
+import { Route as publicPublicLayoutIndexImport } from './routes/(public)/_public-layout/index'
+import { Route as protectedProtectedLayoutDasboardImport } from './routes/(protected)/_protected-layout/dasboard'
+import { Route as authAuthLayoutSignupImport } from './routes/(auth)/_auth-layout/signup'
+import { Route as authAuthLayoutLoginImport } from './routes/(auth)/_auth-layout/login'
 
 // Create Virtual Routes
 
+const publicImport = createFileRoute('/(public)')()
+const protectedImport = createFileRoute('/(protected)')()
 const authImport = createFileRoute('/(auth)')()
 
 // Create/Update Routes
+
+const publicRoute = publicImport.update({
+  id: '/(public)',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const protectedRoute = protectedImport.update({
+  id: '/(protected)',
+  // path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const authRoute = authImport.update({
   id: '/(auth)',
   getParentRoute: () => rootRoute,
 } as any)
 
-const authLayoutRoute = authLayoutImport.update({
-  id: '/_layout',
+const publicPublicLayoutRoute = publicPublicLayoutImport.update({
+  id: '/_public-layout',
+  getParentRoute: () => publicRoute,
+} as any)
+
+const protectedProtectedLayoutRoute = protectedProtectedLayoutImport.update({
+  id: '/_protected-layout',
+  getParentRoute: () => protectedRoute,
+} as any)
+
+const authAuthLayoutRoute = authAuthLayoutImport.update({
+  id: '/_auth-layout',
   getParentRoute: () => authRoute,
 } as any)
 
-const authLayoutIndexRoute = authLayoutIndexImport.update({
+const publicPublicLayoutIndexRoute = publicPublicLayoutIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => authLayoutRoute,
+  getParentRoute: () => publicPublicLayoutRoute,
 } as any)
 
-const authLayoutHomeRoute = authLayoutHomeImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => authLayoutRoute,
+const protectedProtectedLayoutDasboardRoute =
+  protectedProtectedLayoutDasboardImport.update({
+    id: '/dasboard',
+    path: '/dasboard',
+    getParentRoute: () => protectedProtectedLayoutRoute,
+  } as any)
+
+const authAuthLayoutSignupRoute = authAuthLayoutSignupImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => authAuthLayoutRoute,
+} as any)
+
+const authAuthLayoutLoginRoute = authAuthLayoutLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => authAuthLayoutRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -56,94 +96,205 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authImport
       parentRoute: typeof rootRoute
     }
-    '/(auth)/_layout': {
-      id: '/(auth)/_layout'
+    '/(auth)/_auth-layout': {
+      id: '/(auth)/_auth-layout'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof authLayoutImport
+      preLoaderRoute: typeof authAuthLayoutImport
       parentRoute: typeof authRoute
     }
-    '/(auth)/_layout/home': {
-      id: '/(auth)/_layout/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof authLayoutHomeImport
-      parentRoute: typeof authLayoutImport
-    }
-    '/(auth)/_layout/': {
-      id: '/(auth)/_layout/'
+    '/(protected)': {
+      id: '/(protected)'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof authLayoutIndexImport
-      parentRoute: typeof authLayoutImport
+      preLoaderRoute: typeof protectedImport
+      parentRoute: typeof rootRoute
+    }
+    '/(protected)/_protected-layout': {
+      id: '/(protected)/_protected-layout'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof protectedProtectedLayoutImport
+      parentRoute: typeof protectedRoute
+    }
+    '/(public)': {
+      id: '/(public)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof publicImport
+      parentRoute: typeof rootRoute
+    }
+    '/(public)/_public-layout': {
+      id: '/(public)/_public-layout'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof publicPublicLayoutImport
+      parentRoute: typeof publicRoute
+    }
+    '/(auth)/_auth-layout/login': {
+      id: '/(auth)/_auth-layout/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authAuthLayoutLoginImport
+      parentRoute: typeof authAuthLayoutImport
+    }
+    '/(auth)/_auth-layout/signup': {
+      id: '/(auth)/_auth-layout/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof authAuthLayoutSignupImport
+      parentRoute: typeof authAuthLayoutImport
+    }
+    '/(protected)/_protected-layout/dasboard': {
+      id: '/(protected)/_protected-layout/dasboard'
+      path: '/dasboard'
+      fullPath: '/dasboard'
+      preLoaderRoute: typeof protectedProtectedLayoutDasboardImport
+      parentRoute: typeof protectedProtectedLayoutImport
+    }
+    '/(public)/_public-layout/': {
+      id: '/(public)/_public-layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof publicPublicLayoutIndexImport
+      parentRoute: typeof publicPublicLayoutImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface authLayoutRouteChildren {
-  authLayoutHomeRoute: typeof authLayoutHomeRoute
-  authLayoutIndexRoute: typeof authLayoutIndexRoute
+interface authAuthLayoutRouteChildren {
+  authAuthLayoutLoginRoute: typeof authAuthLayoutLoginRoute
+  authAuthLayoutSignupRoute: typeof authAuthLayoutSignupRoute
 }
 
-const authLayoutRouteChildren: authLayoutRouteChildren = {
-  authLayoutHomeRoute: authLayoutHomeRoute,
-  authLayoutIndexRoute: authLayoutIndexRoute,
+const authAuthLayoutRouteChildren: authAuthLayoutRouteChildren = {
+  authAuthLayoutLoginRoute: authAuthLayoutLoginRoute,
+  authAuthLayoutSignupRoute: authAuthLayoutSignupRoute,
 }
 
-const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
-  authLayoutRouteChildren,
+const authAuthLayoutRouteWithChildren = authAuthLayoutRoute._addFileChildren(
+  authAuthLayoutRouteChildren,
 )
 
 interface authRouteChildren {
-  authLayoutRoute: typeof authLayoutRouteWithChildren
+  authAuthLayoutRoute: typeof authAuthLayoutRouteWithChildren
 }
 
 const authRouteChildren: authRouteChildren = {
-  authLayoutRoute: authLayoutRouteWithChildren,
+  authAuthLayoutRoute: authAuthLayoutRouteWithChildren,
 }
 
 const authRouteWithChildren = authRoute._addFileChildren(authRouteChildren)
 
+interface protectedProtectedLayoutRouteChildren {
+  protectedProtectedLayoutDasboardRoute: typeof protectedProtectedLayoutDasboardRoute
+}
+
+const protectedProtectedLayoutRouteChildren: protectedProtectedLayoutRouteChildren =
+  {
+    protectedProtectedLayoutDasboardRoute:
+      protectedProtectedLayoutDasboardRoute,
+  }
+
+const protectedProtectedLayoutRouteWithChildren =
+  protectedProtectedLayoutRoute._addFileChildren(
+    protectedProtectedLayoutRouteChildren,
+  )
+
+interface protectedRouteChildren {
+  protectedProtectedLayoutRoute: typeof protectedProtectedLayoutRouteWithChildren
+}
+
+const protectedRouteChildren: protectedRouteChildren = {
+  protectedProtectedLayoutRoute: protectedProtectedLayoutRouteWithChildren,
+}
+
+const protectedRouteWithChildren = protectedRoute._addFileChildren(
+  protectedRouteChildren,
+)
+
+interface publicPublicLayoutRouteChildren {
+  publicPublicLayoutIndexRoute: typeof publicPublicLayoutIndexRoute
+}
+
+const publicPublicLayoutRouteChildren: publicPublicLayoutRouteChildren = {
+  publicPublicLayoutIndexRoute: publicPublicLayoutIndexRoute,
+}
+
+const publicPublicLayoutRouteWithChildren =
+  publicPublicLayoutRoute._addFileChildren(publicPublicLayoutRouteChildren)
+
+interface publicRouteChildren {
+  publicPublicLayoutRoute: typeof publicPublicLayoutRouteWithChildren
+}
+
+const publicRouteChildren: publicRouteChildren = {
+  publicPublicLayoutRoute: publicPublicLayoutRouteWithChildren,
+}
+
+const publicRouteWithChildren =
+  publicRoute._addFileChildren(publicRouteChildren)
+
 export interface FileRoutesByFullPath {
-  '/': typeof authLayoutIndexRoute
-  '/home': typeof authLayoutHomeRoute
+  '/': typeof publicPublicLayoutIndexRoute
+  '/login': typeof authAuthLayoutLoginRoute
+  '/signup': typeof authAuthLayoutSignupRoute
+  '/dasboard': typeof protectedProtectedLayoutDasboardRoute
 }
 
 export interface FileRoutesByTo {
-  '/home': typeof authLayoutHomeRoute
-  '/': typeof authLayoutIndexRoute
+  '/': typeof publicPublicLayoutIndexRoute
+  '/login': typeof authAuthLayoutLoginRoute
+  '/signup': typeof authAuthLayoutSignupRoute
+  '/dasboard': typeof protectedProtectedLayoutDasboardRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/(auth)': typeof authRouteWithChildren
-  '/(auth)/_layout': typeof authLayoutRouteWithChildren
-  '/(auth)/_layout/home': typeof authLayoutHomeRoute
-  '/(auth)/_layout/': typeof authLayoutIndexRoute
+  '/(auth)/_auth-layout': typeof authAuthLayoutRouteWithChildren
+  '/(protected)': typeof protectedRouteWithChildren
+  '/(protected)/_protected-layout': typeof protectedProtectedLayoutRouteWithChildren
+  '/(public)': typeof publicRouteWithChildren
+  '/(public)/_public-layout': typeof publicPublicLayoutRouteWithChildren
+  '/(auth)/_auth-layout/login': typeof authAuthLayoutLoginRoute
+  '/(auth)/_auth-layout/signup': typeof authAuthLayoutSignupRoute
+  '/(protected)/_protected-layout/dasboard': typeof protectedProtectedLayoutDasboardRoute
+  '/(public)/_public-layout/': typeof publicPublicLayoutIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home'
+  fullPaths: '/' | '/login' | '/signup' | '/dasboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/home' | '/'
+  to: '/' | '/login' | '/signup' | '/dasboard'
   id:
     | '__root__'
     | '/(auth)'
-    | '/(auth)/_layout'
-    | '/(auth)/_layout/home'
-    | '/(auth)/_layout/'
+    | '/(auth)/_auth-layout'
+    | '/(protected)'
+    | '/(protected)/_protected-layout'
+    | '/(public)'
+    | '/(public)/_public-layout'
+    | '/(auth)/_auth-layout/login'
+    | '/(auth)/_auth-layout/signup'
+    | '/(protected)/_protected-layout/dasboard'
+    | '/(public)/_public-layout/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   authRoute: typeof authRouteWithChildren
+  protectedRoute: typeof protectedRouteWithChildren
+  publicRoute: typeof publicRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   authRoute: authRouteWithChildren,
+  protectedRoute: protectedRouteWithChildren,
+  publicRoute: publicRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -156,30 +307,66 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/(auth)"
+        "/(auth)",
+        "/(protected)",
+        "/(public)"
       ]
     },
     "/(auth)": {
       "filePath": "(auth)",
       "children": [
-        "/(auth)/_layout"
+        "/(auth)/_auth-layout"
       ]
     },
-    "/(auth)/_layout": {
-      "filePath": "(auth)/_layout.tsx",
+    "/(auth)/_auth-layout": {
+      "filePath": "(auth)/_auth-layout.tsx",
       "parent": "/(auth)",
       "children": [
-        "/(auth)/_layout/home",
-        "/(auth)/_layout/"
+        "/(auth)/_auth-layout/login",
+        "/(auth)/_auth-layout/signup"
       ]
     },
-    "/(auth)/_layout/home": {
-      "filePath": "(auth)/_layout/home.tsx",
-      "parent": "/(auth)/_layout"
+    "/(protected)": {
+      "filePath": "(protected)",
+      "children": [
+        "/(protected)/_protected-layout"
+      ]
     },
-    "/(auth)/_layout/": {
-      "filePath": "(auth)/_layout/index.tsx",
-      "parent": "/(auth)/_layout"
+    "/(protected)/_protected-layout": {
+      "filePath": "(protected)/_protected-layout.tsx",
+      "parent": "/(protected)",
+      "children": [
+        "/(protected)/_protected-layout/dasboard"
+      ]
+    },
+    "/(public)": {
+      "filePath": "(public)",
+      "children": [
+        "/(public)/_public-layout"
+      ]
+    },
+    "/(public)/_public-layout": {
+      "filePath": "(public)/_public-layout.tsx",
+      "parent": "/(public)",
+      "children": [
+        "/(public)/_public-layout/"
+      ]
+    },
+    "/(auth)/_auth-layout/login": {
+      "filePath": "(auth)/_auth-layout/login.tsx",
+      "parent": "/(auth)/_auth-layout"
+    },
+    "/(auth)/_auth-layout/signup": {
+      "filePath": "(auth)/_auth-layout/signup.tsx",
+      "parent": "/(auth)/_auth-layout"
+    },
+    "/(protected)/_protected-layout/dasboard": {
+      "filePath": "(protected)/_protected-layout/dasboard.tsx",
+      "parent": "/(protected)/_protected-layout"
+    },
+    "/(public)/_public-layout/": {
+      "filePath": "(public)/_public-layout/index.tsx",
+      "parent": "/(public)/_public-layout"
     }
   }
 }
