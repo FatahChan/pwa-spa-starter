@@ -27,39 +27,38 @@ function PWABadge() {
     setNeedRefresh(false);
   }
 
-  return (
-    <div className="alert" role="alert" aria-labelledby="toast-message">
-      {(offlineReady || needRefresh) && (
-        <div className="fixed right-0 bottom-0  m-4  p-3  border  border-gray-300  rounded-lg  z-10  shadow-md  bg-white">
-          <div className="mb-2">
-            {offlineReady ? (
-              <span id="toast-message">App ready to work offline</span>
-            ) : (
-              <span id="toast-message">
-                New content available, click on reload button to update.
-              </span>
-            )}
-          </div>
-          <div className="PWABadge-buttons">
-            {needRefresh && (
-              <button
-                className="border border-gray-300 outline-none rounded-md px-4 mr-1;"
-                onClick={() => updateServiceWorker(true)}
-              >
-                Reload
-              </button>
-            )}
-            <button
-              className="border border-gray-300 outline-none rounded-md px-4 mr-1;"
-              onClick={() => close()}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  if (offlineReady) {
+    <div
+      className="fixed bottom-2 right-2"
+      role="alert"
+      aria-labelledby="toast-message"
+    >
+      <div className="alert alert-success" id="toast-message">
+        App ready to work offline
+      </div>
+    </div>;
+  }
+  if (needRefresh) {
+    <div
+      className="fixed bottom-2 right-2"
+      role="alert"
+      aria-labelledby="toast-message"
+    >
+      <div className="alert alert-info" id="toast-message">
+        New content available, click on reload button to update.
+      </div>
+      <button
+        className="btn btn-primary"
+        onClick={() => updateServiceWorker(true)}
+      >
+        Reload
+      </button>
+      <button className="btn btn-secondary" onClick={() => close()}>
+        Close
+      </button>
+    </div>;
+  }
+  return null;
 }
 
 export default PWABadge;
