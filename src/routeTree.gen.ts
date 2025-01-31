@@ -17,7 +17,7 @@ import { Route as publicPublicLayoutImport } from './routes/(public)/_public-lay
 import { Route as protectedProtectedLayoutImport } from './routes/(protected)/_protected-layout'
 import { Route as authAuthLayoutImport } from './routes/(auth)/_auth-layout'
 import { Route as publicPublicLayoutIndexImport } from './routes/(public)/_public-layout/index'
-import { Route as protectedProtectedLayoutDasboardImport } from './routes/(protected)/_protected-layout/dasboard'
+import { Route as protectedProtectedLayoutDashboardImport } from './routes/(protected)/_protected-layout/dashboard'
 import { Route as authAuthLayoutSignupImport } from './routes/(auth)/_auth-layout/signup'
 import { Route as authAuthLayoutLoginImport } from './routes/(auth)/_auth-layout/login'
 
@@ -36,7 +36,6 @@ const publicRoute = publicImport.update({
 
 const protectedRoute = protectedImport.update({
   id: '/(protected)',
-  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -66,10 +65,10 @@ const publicPublicLayoutIndexRoute = publicPublicLayoutIndexImport.update({
   getParentRoute: () => publicPublicLayoutRoute,
 } as any)
 
-const protectedProtectedLayoutDasboardRoute =
-  protectedProtectedLayoutDasboardImport.update({
-    id: '/dasboard',
-    path: '/dasboard',
+const protectedProtectedLayoutDashboardRoute =
+  protectedProtectedLayoutDashboardImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
     getParentRoute: () => protectedProtectedLayoutRoute,
   } as any)
 
@@ -145,11 +144,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authAuthLayoutSignupImport
       parentRoute: typeof authAuthLayoutImport
     }
-    '/(protected)/_protected-layout/dasboard': {
-      id: '/(protected)/_protected-layout/dasboard'
-      path: '/dasboard'
-      fullPath: '/dasboard'
-      preLoaderRoute: typeof protectedProtectedLayoutDasboardImport
+    '/(protected)/_protected-layout/dashboard': {
+      id: '/(protected)/_protected-layout/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof protectedProtectedLayoutDashboardImport
       parentRoute: typeof protectedProtectedLayoutImport
     }
     '/(public)/_public-layout/': {
@@ -189,13 +188,13 @@ const authRouteChildren: authRouteChildren = {
 const authRouteWithChildren = authRoute._addFileChildren(authRouteChildren)
 
 interface protectedProtectedLayoutRouteChildren {
-  protectedProtectedLayoutDasboardRoute: typeof protectedProtectedLayoutDasboardRoute
+  protectedProtectedLayoutDashboardRoute: typeof protectedProtectedLayoutDashboardRoute
 }
 
 const protectedProtectedLayoutRouteChildren: protectedProtectedLayoutRouteChildren =
   {
-    protectedProtectedLayoutDasboardRoute:
-      protectedProtectedLayoutDasboardRoute,
+    protectedProtectedLayoutDashboardRoute:
+      protectedProtectedLayoutDashboardRoute,
   }
 
 const protectedProtectedLayoutRouteWithChildren =
@@ -241,14 +240,14 @@ export interface FileRoutesByFullPath {
   '/': typeof publicPublicLayoutIndexRoute
   '/login': typeof authAuthLayoutLoginRoute
   '/signup': typeof authAuthLayoutSignupRoute
-  '/dasboard': typeof protectedProtectedLayoutDasboardRoute
+  '/dashboard': typeof protectedProtectedLayoutDashboardRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof publicPublicLayoutIndexRoute
   '/login': typeof authAuthLayoutLoginRoute
   '/signup': typeof authAuthLayoutSignupRoute
-  '/dasboard': typeof protectedProtectedLayoutDasboardRoute
+  '/dashboard': typeof protectedProtectedLayoutDashboardRoute
 }
 
 export interface FileRoutesById {
@@ -261,15 +260,15 @@ export interface FileRoutesById {
   '/(public)/_public-layout': typeof publicPublicLayoutRouteWithChildren
   '/(auth)/_auth-layout/login': typeof authAuthLayoutLoginRoute
   '/(auth)/_auth-layout/signup': typeof authAuthLayoutSignupRoute
-  '/(protected)/_protected-layout/dasboard': typeof protectedProtectedLayoutDasboardRoute
+  '/(protected)/_protected-layout/dashboard': typeof protectedProtectedLayoutDashboardRoute
   '/(public)/_public-layout/': typeof publicPublicLayoutIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signup' | '/dasboard'
+  fullPaths: '/' | '/login' | '/signup' | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/dasboard'
+  to: '/' | '/login' | '/signup' | '/dashboard'
   id:
     | '__root__'
     | '/(auth)'
@@ -280,7 +279,7 @@ export interface FileRouteTypes {
     | '/(public)/_public-layout'
     | '/(auth)/_auth-layout/login'
     | '/(auth)/_auth-layout/signup'
-    | '/(protected)/_protected-layout/dasboard'
+    | '/(protected)/_protected-layout/dashboard'
     | '/(public)/_public-layout/'
   fileRoutesById: FileRoutesById
 }
@@ -336,7 +335,7 @@ export const routeTree = rootRoute
       "filePath": "(protected)/_protected-layout.tsx",
       "parent": "/(protected)",
       "children": [
-        "/(protected)/_protected-layout/dasboard"
+        "/(protected)/_protected-layout/dashboard"
       ]
     },
     "/(public)": {
@@ -360,8 +359,8 @@ export const routeTree = rootRoute
       "filePath": "(auth)/_auth-layout/signup.tsx",
       "parent": "/(auth)/_auth-layout"
     },
-    "/(protected)/_protected-layout/dasboard": {
-      "filePath": "(protected)/_protected-layout/dasboard.tsx",
+    "/(protected)/_protected-layout/dashboard": {
+      "filePath": "(protected)/_protected-layout/dashboard.tsx",
       "parent": "/(protected)/_protected-layout"
     },
     "/(public)/_public-layout/": {
