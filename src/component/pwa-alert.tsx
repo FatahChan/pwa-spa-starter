@@ -1,11 +1,10 @@
 import { useRegisterSW } from "virtual:pwa-register/react";
 
-function PWABadge() {
+function PwaAlert() {
   // check for updates every hour
   const period = 60 * 60 * 1000;
 
   const {
-    offlineReady: [offlineReady, setOfflineReady],
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
   } = useRegisterSW({
@@ -23,45 +22,39 @@ function PWABadge() {
   });
 
   function close() {
-    setOfflineReady(false);
     setNeedRefresh(false);
   }
 
-  if (offlineReady) {
-    <div
-      className="fixed bottom-2 right-2"
-      role="alert"
-      aria-labelledby="toast-message"
-    >
-      <div className="alert alert-success" id="toast-message">
-        App ready to work offline
-      </div>
-    </div>;
-  }
-  if (needRefresh) {
-    <div
-      className="fixed bottom-2 right-2"
-      role="alert"
-      aria-labelledby="toast-message"
-    >
-      <div className="alert alert-info" id="toast-message">
-        New content available, click on reload button to update.
-      </div>
-      <button
-        className="btn btn-primary"
-        onClick={() => updateServiceWorker(true)}
-      >
-        Reload
-      </button>
-      <button className="btn btn-secondary" onClick={() => close()}>
-        Close
-      </button>
-    </div>;
-  }
-  return null;
+  return (
+    <div className="PWABadge" role="alert" aria-labelledby="toast-message">
+      {needRefresh && (
+        <div className="PWABadge-toast fixed right-0 bottom-0 m-4 p-3 border border-gray-300 rounded z-10 text-left shadow-lg bg-white">
+          <div className="mb-2">
+            <span id="toast-message">
+              New content available, click on reload button to update.
+            </span>
+          </div>
+          <div>
+            <button
+              className="border border-gray-300 outline-none rounded py-1 px-2 mr-1"
+              onClick={() => updateServiceWorker(true)}
+            >
+              Reload
+            </button>
+            <button
+              className="border border-gray-300 outline-none rounded py-1 px-2 mr-1"
+              onClick={() => close()}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default PWABadge;
+export default PwaAlert;
 
 /**
  * This function will register a periodic sync check every hour, you can modify the interval as needed.
